@@ -4,7 +4,7 @@ import Simples from './components/Simples';
 import Simples2 from './components/Simples2';
 import Simples3 from './components/Simples3';
 import EvenOdd from './components/EvenOdd';
-
+import Invert, { MegaSena } from './components/Multi';
 
 export default class App extends Component {
   render(){
@@ -15,6 +15,8 @@ export default class App extends Component {
         {/* <Simples2 texto="Flexível 2!!!!" /> */}
         <Simples3 texto="Fléxi 3!!!!"/>
         <EvenOdd numero = {57} />
+        <Invert texto="React-Native"></Invert>
+        <MegaSena numeros={10}/>
       </View>
       )
     }
