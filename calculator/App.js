@@ -4,7 +4,7 @@ import Button from './src/components/Button';
 import Display from './src/components/Display';
 
 const initialState = {
-  displayValue: 0,
+  displayValue: '0',
   clearDisplay: false,
   operation: null,
   values: [0, 0],
@@ -24,7 +24,7 @@ export default class App extends Component {
 
     const currentValue = clearDisplay ? '' : this.state.displayValue;
     const displayValue = currentValue + n;
-    this.setState({displayValue, clearDisplay: false});
+    this.setState({clearDisplay: false, displayValue});
 
     if (n !== '.') {
       const newValue = parseFloat(displayValue);
@@ -38,7 +38,36 @@ export default class App extends Component {
     this.setState({...initialState});
   };
 
-  setOperation = operation => {};
+  setOperation = operation => {
+    if (this.state.current === 0) {
+      this.setState({operation, current: 1, clearDisplay: true});
+    } else {
+      const equals = operation === '=';
+      const values = [...this.state.values];
+
+      try {
+        values[0] = eval(`${values[0]} ${this.state.operation} ${values[1]}`);
+      } catch (e) {
+        values[0] = this.state.values[0];
+      }
+      switch (this.state.operation) {
+        case '*' || '/':
+          values[1] = 1;
+          break;
+        default:
+          values[1] = 0;
+          break;
+      }
+
+      this.setState({
+        displayValue: values[0],
+        operation: equals ? null : operation,
+        current: equals ? 0 : 1,
+        clearDisplay: !equals,
+        values,
+      });
+    }
+  };
 
   render() {
     return (
